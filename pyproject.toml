@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "yutu-manager"
+version = "0.1.0"
+description = "互動式 YouTube 頻道管理工具 - yutu CLI 的友善介面"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "Chares" }
+]
+keywords = ["youtube", "cli", "tui", "playlist", "video"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Video",
+]
+
+dependencies = [
+    "rich>=13.0.0",
+    "questionary>=2.0.0",
+    "click>=8.0.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+[project.scripts]
+yutu-manager = "yutu_cli.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["yutu_cli"]
+
+[tool.uv]
+# 使用 uv 管理 Python 版本
+python-preference = "managed"
