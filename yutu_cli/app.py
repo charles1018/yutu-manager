@@ -60,14 +60,14 @@ def run_interactive() -> None:
     
     # 主選單選項
     menu_choices = [
-        questionary.Choice("📋 播放清單管理", value="playlists"),
-        questionary.Choice("🎥 影片管理", value="videos"),
-        questionary.Choice("🔍 搜尋 YouTube", value="search"),
-        questionary.Choice("📺 頻道資訊", value="channel"),
-        questionary.Choice("💬 留言管理", value="comments"),
-        questionary.Choice("📝 字幕管理", value="captions"),
-        questionary.Separator(),
-        questionary.Choice("🚪 離開", value="exit"),
+        questionary.Choice("1. 📋 播放清單管理", value="playlists"),
+        questionary.Choice("2. 🎥 影片管理", value="videos"),
+        questionary.Choice("3. 🔍 搜尋 YouTube", value="search"),
+        questionary.Choice("4. 📺 頻道資訊", value="channel"),
+        questionary.Choice("5. 💬 留言管理", value="comments"),
+        questionary.Choice("6. 📝 字幕管理", value="captions"),
+        questionary.Separator("─────────────────"),
+        questionary.Choice("0. 🚪 離開", value="exit"),
     ]
     
     # 功能對應

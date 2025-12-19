@@ -20,10 +20,10 @@ def search_menu() -> bool:
     yutu = get_yutu()
     
     choices = [
-        questionary.Choice("🔍 搜尋影片", value="video"),
-        questionary.Choice("📋 搜尋播放清單", value="playlist"),
-        questionary.Choice("📺 搜尋頻道", value="channel"),
-        questionary.Choice("⬅️  返回主選單", value="back"),
+        questionary.Choice("1. 🔍 搜尋影片", value="video"),
+        questionary.Choice("2. 📋 搜尋播放清單", value="playlist"),
+        questionary.Choice("3. 📺 搜尋頻道", value="channel"),
+        questionary.Choice("0. ⬅️  返回主選單", value="back"),
     ]
     
     while True:

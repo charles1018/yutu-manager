@@ -26,13 +26,13 @@ def playlist_menu() -> bool:
     yutu = get_yutu()
     
     choices = [
-        questionary.Choice("📋 列出我的播放清單", value="list"),
-        questionary.Choice("👁️  查看播放清單內容", value="view"),
-        questionary.Choice("➕ 新增播放清單", value="create"),
-        questionary.Choice("➕ 新增影片到播放清單", value="add_video"),
-        questionary.Choice("➖ 從播放清單移除影片", value="remove_video"),
-        questionary.Choice("🗑️  刪除播放清單", value="delete"),
-        questionary.Choice("⬅️  返回主選單", value="back"),
+        questionary.Choice("1. 📋 列出我的播放清單", value="list"),
+        questionary.Choice("2. 👁️  查看播放清單內容", value="view"),
+        questionary.Choice("3. ➕ 新增播放清單", value="create"),
+        questionary.Choice("4. ➕ 新增影片到播放清單", value="add_video"),
+        questionary.Choice("5. ➖ 從播放清單移除影片", value="remove_video"),
+        questionary.Choice("6. 🗑️  刪除播放清單", value="delete"),
+        questionary.Choice("0. ⬅️  返回主選單", value="back"),
     ]
     
     while True:

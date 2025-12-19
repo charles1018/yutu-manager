@@ -29,9 +29,9 @@ def video_menu() -> bool:
     yutu = get_yutu()
     
     choices = [
-        questionary.Choice("📋 列出我的影片", value="list"),
-        questionary.Choice("🔍 查看影片詳情", value="details"),
-        questionary.Choice("⬅️  返回主選單", value="back"),
+        questionary.Choice("1. 📋 列出我的影片", value="list"),
+        questionary.Choice("2. 🔍 查看影片詳情", value="details"),
+        questionary.Choice("0. ⬅️  返回主選單", value="back"),
     ]
     
     while True:

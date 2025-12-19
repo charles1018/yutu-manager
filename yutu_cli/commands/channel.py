@@ -18,8 +18,8 @@ def channel_menu() -> bool:
     yutu = get_yutu()
     
     choices = [
-        questionary.Choice("📊 查看我的頻道", value="view"),
-        questionary.Choice("⬅️  返回主選單", value="back"),
+        questionary.Choice("1. 📊 查看我的頻道", value="view"),
+        questionary.Choice("0. ⬅️  返回主選單", value="back"),
     ]
     
     while True:
