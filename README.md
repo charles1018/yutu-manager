@@ -93,6 +93,11 @@ YouTube 頻道管理工具 - 互動式 CLI
    🚪 離開
 ```
 
+## 🔗 相關連結
+
+- [yutu](https://github.com/eat-pray-ai/yutu) - 本專案使用的 YouTube CLI 工具
+- [YouTube Data API v3](https://developers.google.com/youtube/v3/docs) - 官方 API 文件
+
 ## 📄 授權
 
 MIT License
