@@ -93,6 +93,30 @@ YouTube 頻道管理工具 - 互動式 CLI
    🚪 離開
 ```
 
+## 📊 如何查詢 API 配額使用量 (Quota Usage)
+
+YouTube Data API v3 預設每日配額為 **10,000 點**。請依照以下步驟查詢今日已使用量：
+
+1.  進入 **[Google Cloud Console (Google 雲端主控台)](https://console.cloud.google.com/)**。
+2.  確認左上角已選取正確的 **專案 (Project)**。
+3.  點選左側選單的 **「API 和服務」 (APIs & Services)** > **「已啟用的 API 和服務」 (Enabled APIs & services)**。
+4.  在下方列表中找到並點選 **「YouTube Data API v3」**。
+5.  進入詳細頁面後，點選上方的 **「配額與系統限制」 (Quotas)** 分頁。
+6.  查看 **`Queries per day`** (每天查詢次數) 的進度條，即為今日已消耗點數。
+
+> **注意：** 數據顯示通常會有約 5-10 分鐘的延遲。
+
+## 🕒 額度重置時間 (Reset Time)
+
+API 配額會在 **美國太平洋時間 (Pacific Time, PT) 午夜 12:00** 自動重置。
+
+換算為 **台灣時間 (UTC+8)** 如下：
+
+* **冬令時間 (約 11 月至隔年 3 月)：** 每天下午 **16:00** 重置
+* **夏令時間 (約 3 月至 11 月)：** 每天下午 **15:00** 重置
+
+*如果在重置時間前耗盡額度，程式將會收到 `403 quotaExceeded` 錯誤，需等待上述時間過後才能繼續使用。*
+
 ## 🔗 相關連結
 
 - [yutu](https://github.com/eat-pray-ai/yutu) - 本專案使用的 YouTube CLI 工具
