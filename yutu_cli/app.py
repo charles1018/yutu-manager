@@ -1,7 +1,6 @@
 """主應用程式 - 互動式選單"""
 
 import questionary
-from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 
@@ -13,9 +12,7 @@ from yutu_cli.commands.playlists import playlist_menu
 from yutu_cli.commands.search import search_menu
 from yutu_cli.commands.videos import video_menu
 from yutu_cli.config import get_config
-from yutu_cli.utils.display import display_error, display_warning
-
-console = Console()
+from yutu_cli.utils.display import console, display_error, display_warning
 
 
 def show_banner() -> None:

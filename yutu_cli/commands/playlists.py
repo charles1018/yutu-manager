@@ -3,9 +3,9 @@
 from typing import Optional
 
 import questionary
-from rich.console import Console
 
 from yutu_cli.utils.display import (
+    console,
     display_error,
     display_playlist_items,
     display_playlists,
@@ -14,8 +14,6 @@ from yutu_cli.utils.display import (
 )
 from yutu_cli.utils.youtube_utils import extract_video_id
 from yutu_cli.utils.yutu import YutuCLI, get_yutu
-
-console = Console()
 
 
 def playlist_menu() -> bool:

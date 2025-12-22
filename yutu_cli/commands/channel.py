@@ -1,12 +1,9 @@
 """頻道資訊功能"""
 
 import questionary
-from rich.console import Console
 
-from yutu_cli.utils.display import display_channel_info, display_error
-from yutu_cli.utils.yutu import get_yutu
-
-console = Console()
+from yutu_cli.utils.display import console, display_channel_info, display_error
+from yutu_cli.utils.yutu import YutuCLI, get_yutu
 
 
 def channel_menu() -> bool:
@@ -36,7 +33,7 @@ def channel_menu() -> bool:
             _view_my_channel(yutu)
 
 
-def _view_my_channel(yutu) -> None:
+def _view_my_channel(yutu: YutuCLI) -> None:
     """查看我的頻道資訊"""
     with console.status("[cyan]正在載入頻道資訊...[/cyan]"):
         result = yutu.get_my_channel()

@@ -6,11 +6,7 @@ import subprocess
 from dataclasses import dataclass
 from typing import Any, Optional
 
-from rich.console import Console
-
 from yutu_cli.config import get_config
-
-console = Console()
 
 
 @dataclass

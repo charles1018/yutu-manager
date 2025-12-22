@@ -3,10 +3,10 @@
 from typing import Optional
 
 import questionary
-from rich.console import Console
 from rich.panel import Panel
 
 from yutu_cli.utils.display import (
+    console,
     display_error,
     display_search_results,
     display_success,
@@ -17,8 +17,6 @@ from yutu_cli.utils.display import (
 )
 from yutu_cli.utils.youtube_utils import extract_video_id
 from yutu_cli.utils.yutu import YutuCLI, get_yutu
-
-console = Console()
 
 
 def video_menu() -> bool:

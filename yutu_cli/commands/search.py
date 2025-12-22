@@ -3,12 +3,9 @@
 from typing import Optional
 
 import questionary
-from rich.console import Console
 
-from yutu_cli.utils.display import display_error, display_search_results
+from yutu_cli.utils.display import console, display_error, display_search_results
 from yutu_cli.utils.yutu import YutuCLI, get_yutu
-
-console = Console()
 
 
 def search_menu() -> bool:
