@@ -33,6 +33,10 @@ uv run yutu-manager
 
 # 查看版本
 uv run yutu-manager --version
+
+# 執行測試
+uv pip install pytest pytest-cov
+uv run pytest tests/ -v
 ```
 
 ### 全域安裝（可選）
@@ -62,6 +66,10 @@ yutu-manager/
 ├── SKILL.md                # Claude Code 技能定義
 ├── scripts/
 │   └── format_output.py    # yutu 輸出格式化腳本
+├── tests/                  # 單元測試
+│   ├── test_display.py     # 顯示模組測試
+│   ├── test_youtube_utils.py # YouTube 工具測試
+│   └── test_yutu.py        # yutu CLI 包裝器測試
 └── yutu_cli/               # 互動式 CLI 套件
     ├── app.py              # 主應用程式
     ├── config.py           # 設定管理
@@ -72,7 +80,8 @@ yutu-manager/
     │   └── channel.py      # 頻道資訊
     └── utils/
         ├── yutu.py         # yutu CLI 包裝器
-        └── display.py      # 美化輸出
+        ├── display.py      # 美化輸出（共用 Console 實例）
+        └── youtube_utils.py # YouTube 相關工具函式
 ```
 
 ## 📖 截圖
