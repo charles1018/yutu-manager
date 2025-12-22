@@ -90,7 +90,7 @@ def _search(yutu, search_type: str = "video") -> None:
         result = yutu.run(
             "search", "list",
             q=query,
-            types=search_type,
+            type=search_type,
             order=order,
             max_results=max_results if max_results > 0 else None,
         )

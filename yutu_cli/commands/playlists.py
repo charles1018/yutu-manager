@@ -12,6 +12,7 @@ from yutu_cli.utils.display import (
     display_success,
     display_warning,
 )
+from yutu_cli.utils.youtube_utils import extract_video_id
 from yutu_cli.utils.yutu import get_yutu
 
 console = Console()
@@ -162,7 +163,7 @@ def _add_video_to_playlist(yutu) -> None:
         return
     
     # 從網址提取 video ID
-    video_id = _extract_video_id(video_id.strip())
+    video_id = extract_video_id(video_id.strip())
     playlist_id = playlist.get("id")
     playlist_title = playlist.get("snippet", {}).get("title", "")
     
@@ -173,28 +174,6 @@ def _add_video_to_playlist(yutu) -> None:
         display_success(f"已將影片新增至「{playlist_title}」")
     else:
         display_error(result.error or "新增失敗")
-
-
-def _extract_video_id(url_or_id: str) -> str:
-    """從 YouTube 網址提取影片 ID"""
-    # 如果已經是 ID（11 字元）
-    if len(url_or_id) == 11 and "/" not in url_or_id:
-        return url_or_id
-    
-    # 嘗試從網址提取
-    import re
-    patterns = [
-        r"(?:v=|\/)([\w-]{11})(?:\?|&|$)",  # watch?v= 或 /xxxxx
-        r"youtu\.be\/([\w-]{11})",           # youtu.be/
-        r"embed\/([\w-]{11})",               # embed/
-    ]
-    for pattern in patterns:
-        match = re.search(pattern, url_or_id)
-        if match:
-            return match.group(1)
-    
-    # 無法識別，原樣回傳
-    return url_or_id
 
 
 def _remove_video_from_playlist(yutu) -> None:

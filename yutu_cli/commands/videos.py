@@ -15,6 +15,7 @@ from yutu_cli.utils.display import (
     format_date,
     format_duration,
 )
+from yutu_cli.utils.youtube_utils import extract_video_id
 from yutu_cli.utils.yutu import get_yutu
 
 console = Console()
@@ -74,7 +75,7 @@ def _view_video_details(yutu) -> None:
         return
     
     # 從網址提取 video ID
-    video_id = _extract_video_id(video_id.strip())
+    video_id = extract_video_id(video_id.strip())
     
     with console.status("[cyan]正在載入影片詳情...[/cyan]"):
         result = yutu.get_video_details(video_id)
@@ -135,24 +136,3 @@ def _view_video_details(yutu) -> None:
 {description or '（無描述）'}
 """
     console.print(Panel(panel_content, title="🎥 影片詳情", border_style="cyan"))
-
-
-def _extract_video_id(url_or_id: str) -> str:
-    """從 YouTube 網址提取影片 ID"""
-    # 如果已經是 ID（11 字元）
-    if len(url_or_id) == 11 and "/" not in url_or_id:
-        return url_or_id
-    
-    # 嘗試從網址提取
-    import re
-    patterns = [
-        r"(?:v=|\/)([\w-]{11})(?:\?|&|$)",
-        r"youtu\.be\/([\w-]{11})",
-        r"embed\/([\w-]{11})",
-    ]
-    for pattern in patterns:
-        match = re.search(pattern, url_or_id)
-        if match:
-            return match.group(1)
-    
-    return url_or_id
