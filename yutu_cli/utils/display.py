@@ -24,23 +24,35 @@ def format_count(count: int | str | None) -> str:
 
 
 def format_duration(duration: str | None) -> str:
-    """將 ISO 8601 時長轉換為人類可讀格式"""
+    """將 ISO 8601 時長轉換為人類可讀格式
+
+    Args:
+        duration: ISO 8601 時長格式（例如 PT1H2M3S）
+
+    Returns:
+        人類可讀格式（例如 1:02:03）
+    """
     if not duration:
         return ""
-    # PT1H2M3S -> 1:02:03
-    duration = duration.replace("PT", "")
-    hours = minutes = seconds = 0
-    if "H" in duration:
-        h, duration = duration.split("H")
-        hours = int(h)
-    if "M" in duration:
-        m, duration = duration.split("M")
-        minutes = int(m)
-    if "S" in duration:
-        seconds = int(duration.replace("S", ""))
-    if hours:
-        return f"{hours}:{minutes:02d}:{seconds:02d}"
-    return f"{minutes}:{seconds:02d}"
+
+    try:
+        # PT1H2M3S -> 1:02:03
+        duration = duration.replace("PT", "")
+        hours = minutes = seconds = 0
+        if "H" in duration:
+            h, duration = duration.split("H")
+            hours = int(h)
+        if "M" in duration:
+            m, duration = duration.split("M")
+            minutes = int(m)
+        if "S" in duration:
+            seconds = int(duration.replace("S", ""))
+        if hours:
+            return f"{hours}:{minutes:02d}:{seconds:02d}"
+        return f"{minutes}:{seconds:02d}"
+    except (ValueError, AttributeError):
+        # 無法解析時回傳原始字串
+        return str(duration) if duration else ""
 
 
 def format_date(date_str: str | None) -> str:

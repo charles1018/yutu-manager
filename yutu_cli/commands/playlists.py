@@ -13,7 +13,7 @@ from yutu_cli.utils.display import (
     display_warning,
 )
 from yutu_cli.utils.youtube_utils import extract_video_id
-from yutu_cli.utils.yutu import get_yutu
+from yutu_cli.utils.yutu import YutuCLI, get_yutu
 
 console = Console()
 
@@ -60,7 +60,7 @@ def playlist_menu() -> bool:
             _delete_playlist(yutu)
 
 
-def _list_playlists(yutu) -> Optional[list]:
+def _list_playlists(yutu: YutuCLI) -> Optional[list]:
     """列出播放清單並回傳項目列表"""
     with console.status("[cyan]正在載入播放清單...[/cyan]"):
         result = yutu.list_my_playlists()
@@ -76,7 +76,7 @@ def _list_playlists(yutu) -> Optional[list]:
     return result.data.get("items", []) if result.data else []
 
 
-def _select_playlist(yutu, prompt: str = "選擇播放清單") -> Optional[dict]:
+def _select_playlist(yutu: YutuCLI, prompt: str = "選擇播放清單") -> Optional[dict]:
     """讓使用者選擇一個播放清單"""
     items = _list_playlists(yutu)
     if not items:
@@ -94,7 +94,7 @@ def _select_playlist(yutu, prompt: str = "選擇播放清單") -> Optional[dict]
     return questionary.select(prompt, choices=choices).ask()
 
 
-def _view_playlist(yutu) -> None:
+def _view_playlist(yutu: YutuCLI) -> None:
     """查看播放清單內容"""
     playlist = _select_playlist(yutu, "選擇要查看的播放清單")
     if not playlist:
@@ -113,7 +113,7 @@ def _view_playlist(yutu) -> None:
     display_playlist_items(result.data, playlist_title)
 
 
-def _create_playlist(yutu) -> None:
+def _create_playlist(yutu: YutuCLI) -> None:
     """建立新播放清單"""
     title = questionary.text(
         "播放清單標題：",
@@ -148,7 +148,7 @@ def _create_playlist(yutu) -> None:
         display_error(result.error or "建立失敗")
 
 
-def _add_video_to_playlist(yutu) -> None:
+def _add_video_to_playlist(yutu: YutuCLI) -> None:
     """新增影片到播放清單"""
     playlist = _select_playlist(yutu, "選擇目標播放清單")
     if not playlist:
@@ -176,7 +176,7 @@ def _add_video_to_playlist(yutu) -> None:
         display_error(result.error or "新增失敗")
 
 
-def _remove_video_from_playlist(yutu) -> None:
+def _remove_video_from_playlist(yutu: YutuCLI) -> None:
     """從播放清單移除影片"""
     playlist = _select_playlist(yutu, "選擇播放清單")
     if not playlist:
@@ -237,7 +237,7 @@ def _remove_video_from_playlist(yutu) -> None:
         display_error(result.error or "移除失敗")
 
 
-def _delete_playlist(yutu) -> None:
+def _delete_playlist(yutu: YutuCLI) -> None:
     """刪除播放清單"""
     playlist = _select_playlist(yutu, "選擇要刪除的播放清單")
     if not playlist:

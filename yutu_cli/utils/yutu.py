@@ -1,6 +1,7 @@
 """yutu CLI 包裝器 - 執行 yutu 命令並解析輸出"""
 
 import json
+import os
 import subprocess
 from dataclasses import dataclass
 from typing import Any, Optional
@@ -52,7 +53,7 @@ class YutuCLI:
         for key, value in kwargs.items():
             if value is None:
                 continue
-            # 將 snake_case 轉換為 camelCase 風格的參數名
+            # 將 snake_case 轉換為 kebab-case（例如 max_results -> max-results）
             param_name = key.replace("_", "-")
             if isinstance(value, bool):
                 if value:
@@ -91,14 +92,14 @@ class YutuCLI:
         )
         
         try:
-            # 合併環境變數
-            env = {**self.config.get_env_dict()}
-            
+            # 合併環境變數（確保繼承父程序環境變數）
+            env = {**os.environ, **self.config.get_env_dict()}
+
             result = subprocess.run(
                 cmd,
                 capture_output=True,
                 text=True,
-                env={**subprocess.os.environ, **env},
+                env=env,
                 timeout=120,  # 2 分鐘超時
             )
             

@@ -16,7 +16,7 @@ from yutu_cli.utils.display import (
     format_duration,
 )
 from yutu_cli.utils.youtube_utils import extract_video_id
-from yutu_cli.utils.yutu import get_yutu
+from yutu_cli.utils.yutu import YutuCLI, get_yutu
 
 console = Console()
 
@@ -51,7 +51,7 @@ def video_menu() -> bool:
             _view_video_details(yutu)
 
 
-def _list_my_videos(yutu, max_results: Optional[int] = 50) -> Optional[list]:
+def _list_my_videos(yutu: YutuCLI, max_results: Optional[int] = 50) -> Optional[list]:
     """列出我的影片"""
     with console.status("[cyan]正在載入影片...[/cyan]"):
         result = yutu.list_my_videos(max_results=max_results)
@@ -64,7 +64,7 @@ def _list_my_videos(yutu, max_results: Optional[int] = 50) -> Optional[list]:
     return result.data.get("items", []) if result.data else []
 
 
-def _view_video_details(yutu) -> None:
+def _view_video_details(yutu: YutuCLI) -> None:
     """查看影片詳情"""
     video_id = questionary.text(
         "輸入影片 ID 或 YouTube 網址：",

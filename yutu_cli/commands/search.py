@@ -6,7 +6,7 @@ import questionary
 from rich.console import Console
 
 from yutu_cli.utils.display import display_error, display_search_results
-from yutu_cli.utils.yutu import get_yutu
+from yutu_cli.utils.yutu import YutuCLI, get_yutu
 
 console = Console()
 
@@ -40,7 +40,7 @@ def search_menu() -> bool:
             _search(yutu, search_type=action)
 
 
-def _search(yutu, search_type: str = "video") -> None:
+def _search(yutu: YutuCLI, search_type: str = "video") -> None:
     """執行搜尋"""
     type_names = {
         "video": "影片",
