@@ -59,6 +59,8 @@ def _list_my_videos(yutu: YutuCLI, max_results: Optional[int] = 50) -> Optional[
         return None
     
     display_search_results(result.data)
+    if isinstance(result.data, list):
+        return result.data
     return result.data.get("items", []) if result.data else []
 
 
@@ -82,7 +84,10 @@ def _view_video_details(yutu: YutuCLI) -> None:
         display_error(result.error or "無法取得影片詳情")
         return
     
-    items = result.data.get("items", []) if result.data else []
+    if isinstance(result.data, list):
+        items = result.data
+    else:
+        items = result.data.get("items", []) if result.data else []
     if not items:
         display_error("找不到此影片")
         return

@@ -46,11 +46,15 @@ class YutuCLI:
             cmd.extend(["--maxResults", "0"])
         
         # 加入其他參數
+        param_aliases: dict[str, str] = {}
+        if resource == "search" and action == "list":
+            # yutu 搜尋參數使用 --types（複數）而非 --type
+            param_aliases["type"] = "types"
         for key, value in kwargs.items():
             if value is None:
                 continue
             # 將 snake_case 轉換為 kebab-case（例如 max_results -> max-results）
-            param_name = key.replace("_", "-")
+            param_name = param_aliases.get(key, key).replace("_", "-")
             if isinstance(value, bool):
                 if value:
                     cmd.extend([f"--{param_name}", "true"])
@@ -187,7 +191,7 @@ class YutuCLI:
         return self.run(
             "search", "list",
             q=query,
-            type="video",
+            types="video",
             order=order,
             max_results=max_results,
         )
@@ -207,7 +211,7 @@ class YutuCLI:
         return self.run(
             "search", "list",
             forMine=True,
-            type="video",
+            types="video",
             max_results=max_results,
         )
     
