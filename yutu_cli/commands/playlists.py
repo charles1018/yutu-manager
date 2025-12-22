@@ -25,20 +25,21 @@ def playlist_menu() -> bool:
     yutu = get_yutu()
     
     choices = [
-        questionary.Choice("1. 📋 列出我的播放清單", value="list"),
-        questionary.Choice("2. 👁️  查看播放清單內容", value="view"),
-        questionary.Choice("3. ➕ 新增播放清單", value="create"),
-        questionary.Choice("4. ➕ 新增影片到播放清單", value="add_video"),
-        questionary.Choice("5. ➖ 從播放清單移除影片", value="remove_video"),
-        questionary.Choice("6. 🗑️  刪除播放清單", value="delete"),
-        questionary.Choice("0. ⬅️  返回主選單", value="back"),
+        questionary.Choice("📋 列出我的播放清單", value="list", shortcut_key="1"),
+        questionary.Choice("👁️  查看播放清單內容", value="view", shortcut_key="2"),
+        questionary.Choice("➕ 新增播放清單", value="create", shortcut_key="3"),
+        questionary.Choice("➕ 新增影片到播放清單", value="add_video", shortcut_key="4"),
+        questionary.Choice("➖ 從播放清單移除影片", value="remove_video", shortcut_key="5"),
+        questionary.Choice("🗑️  刪除播放清單", value="delete", shortcut_key="6"),
+        questionary.Choice("⬅️  返回主選單", value="back", shortcut_key="0"),
     ]
     
     while True:
         action = questionary.select(
             "📋 播放清單管理",
             choices=choices,
-            instruction="使用 ↑↓ 鍵選擇，Enter 確認",
+            instruction="輸入數字或使用 ↑↓ 選擇，Enter 確認",
+            use_shortcuts=True,
         ).ask()
         
         if action is None or action == "back":

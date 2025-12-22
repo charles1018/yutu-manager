@@ -57,14 +57,14 @@ def run_interactive() -> None:
     
     # 主選單選項
     menu_choices = [
-        questionary.Choice("1. 📋 播放清單管理", value="playlists"),
-        questionary.Choice("2. 🎥 影片管理", value="videos"),
-        questionary.Choice("3. 🔍 搜尋 YouTube", value="search"),
-        questionary.Choice("4. 📺 頻道資訊", value="channel"),
-        questionary.Choice("5. 💬 留言管理", value="comments"),
-        questionary.Choice("6. 📝 字幕管理", value="captions"),
+        questionary.Choice("📋 播放清單管理", value="playlists", shortcut_key="1"),
+        questionary.Choice("🎥 影片管理", value="videos", shortcut_key="2"),
+        questionary.Choice("🔍 搜尋 YouTube", value="search", shortcut_key="3"),
+        questionary.Choice("📺 頻道資訊", value="channel", shortcut_key="4"),
+        questionary.Choice("💬 留言管理", value="comments", shortcut_key="5"),
+        questionary.Choice("📝 字幕管理", value="captions", shortcut_key="6"),
         questionary.Separator("─────────────────"),
-        questionary.Choice("0. 🚪 離開", value="exit"),
+        questionary.Choice("🚪 離開", value="exit", shortcut_key="0"),
     ]
     
     # 功能對應
@@ -83,8 +83,9 @@ def run_interactive() -> None:
             choice = questionary.select(
                 "請選擇功能",
                 choices=menu_choices,
-                instruction="使用 ↑↓ 鍵選擇，Enter 確認",
+                instruction="輸入數字或使用 ↑↓ 選擇，Enter 確認",
                 qmark="🎬",
+                use_shortcuts=True,
             ).ask()
             
             if choice is None or choice == "exit":

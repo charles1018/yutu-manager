@@ -17,17 +17,18 @@ def search_menu() -> bool:
     yutu = get_yutu()
     
     choices = [
-        questionary.Choice("1. 🔍 搜尋影片", value="video"),
-        questionary.Choice("2. 📋 搜尋播放清單", value="playlist"),
-        questionary.Choice("3. 📺 搜尋頻道", value="channel"),
-        questionary.Choice("0. ⬅️  返回主選單", value="back"),
+        questionary.Choice("🔍 搜尋影片", value="video", shortcut_key="1"),
+        questionary.Choice("📋 搜尋播放清單", value="playlist", shortcut_key="2"),
+        questionary.Choice("📺 搜尋頻道", value="channel", shortcut_key="3"),
+        questionary.Choice("⬅️  返回主選單", value="back", shortcut_key="0"),
     ]
     
     while True:
         action = questionary.select(
             "🔍 搜尋 YouTube",
             choices=choices,
-            instruction="使用 ↑↓ 鍵選擇，Enter 確認",
+            instruction="輸入數字或使用 ↑↓ 選擇，Enter 確認",
+            use_shortcuts=True,
         ).ask()
         
         if action is None or action == "back":

@@ -28,16 +28,17 @@ def video_menu() -> bool:
     yutu = get_yutu()
     
     choices = [
-        questionary.Choice("1. 📋 列出我的影片", value="list"),
-        questionary.Choice("2. 🔍 查看影片詳情", value="details"),
-        questionary.Choice("0. ⬅️  返回主選單", value="back"),
+        questionary.Choice("📋 列出我的影片", value="list", shortcut_key="1"),
+        questionary.Choice("🔍 查看影片詳情", value="details", shortcut_key="2"),
+        questionary.Choice("⬅️  返回主選單", value="back", shortcut_key="0"),
     ]
     
     while True:
         action = questionary.select(
             "🎥 影片管理",
             choices=choices,
-            instruction="使用 ↑↓ 鍵選擇，Enter 確認",
+            instruction="輸入數字或使用 ↑↓ 選擇，Enter 確認",
+            use_shortcuts=True,
         ).ask()
         
         if action is None or action == "back":

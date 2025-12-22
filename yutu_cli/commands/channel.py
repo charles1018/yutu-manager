@@ -15,15 +15,16 @@ def channel_menu() -> bool:
     yutu = get_yutu()
     
     choices = [
-        questionary.Choice("1. 📊 查看我的頻道", value="view"),
-        questionary.Choice("0. ⬅️  返回主選單", value="back"),
+        questionary.Choice("📊 查看我的頻道", value="view", shortcut_key="1"),
+        questionary.Choice("⬅️  返回主選單", value="back", shortcut_key="0"),
     ]
     
     while True:
         action = questionary.select(
             "📺 頻道資訊",
             choices=choices,
-            instruction="使用 ↑↓ 鍵選擇，Enter 確認",
+            instruction="輸入數字或使用 ↑↓ 選擇，Enter 確認",
+            use_shortcuts=True,
         ).ask()
         
         if action is None or action == "back":
