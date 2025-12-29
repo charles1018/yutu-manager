@@ -228,8 +228,7 @@ def _reply_to_comment(yutu: YutuCLI) -> None:
 
     # 輸入回覆內容
     reply_text = questionary.text(
-        "輸入回覆內容：",
-        validate=lambda x: len(x.strip()) > 0 or "回覆不能為空",
+        "輸入回覆內容（留空返回）：",
     ).ask()
 
     if not reply_text:

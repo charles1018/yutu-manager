@@ -77,8 +77,7 @@ def _list_my_videos(yutu: YutuCLI, max_results: Optional[int] = 50) -> Optional[
 def _view_video_details(yutu: YutuCLI) -> None:
     """查看影片詳情"""
     video_id = questionary.text(
-        "輸入影片 ID 或 YouTube 網址：",
-        validate=lambda x: len(x.strip()) > 0 or "請輸入影片 ID",
+        "輸入影片 ID 或 YouTube 網址（留空返回）：",
     ).ask()
     
     if not video_id:
@@ -154,8 +153,7 @@ def _view_video_details(yutu: YutuCLI) -> None:
 def _update_video(yutu: YutuCLI) -> None:
     """編輯影片資訊"""
     video_input = questionary.text(
-        "輸入影片 ID 或 YouTube 網址：",
-        validate=lambda x: len(x.strip()) > 0 or "請輸入影片 ID",
+        "輸入影片 ID 或 YouTube 網址（留空返回）：",
     ).ask()
 
     if not video_input:
@@ -283,8 +281,7 @@ def _update_video(yutu: YutuCLI) -> None:
 def _delete_video(yutu: YutuCLI) -> None:
     """刪除影片"""
     video_input = questionary.text(
-        "輸入要刪除的影片 ID 或 YouTube 網址：",
-        validate=lambda x: len(x.strip()) > 0 or "請輸入影片 ID",
+        "輸入要刪除的影片 ID 或 YouTube 網址（留空返回）：",
     ).ask()
 
     if not video_input:
@@ -334,8 +331,7 @@ def _delete_video(yutu: YutuCLI) -> None:
 def _rate_video(yutu: YutuCLI) -> None:
     """評分影片"""
     video_input = questionary.text(
-        "輸入影片 ID 或 YouTube 網址：",
-        validate=lambda x: len(x.strip()) > 0 or "請輸入影片 ID",
+        "輸入影片 ID 或 YouTube 網址（留空返回）：",
     ).ask()
 
     if not video_input:

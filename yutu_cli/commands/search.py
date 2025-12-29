@@ -1,7 +1,5 @@
 """搜尋功能"""
 
-from typing import Optional
-
 import questionary
 
 from yutu_cli.utils.display import console, display_error, display_search_results
@@ -47,8 +45,7 @@ def _search(yutu: YutuCLI, search_type: str = "video") -> None:
     }
     
     query = questionary.text(
-        f"搜尋{type_names.get(search_type, '')}關鍵字：",
-        validate=lambda x: len(x.strip()) > 0 or "請輸入關鍵字",
+        f"搜尋{type_names.get(search_type, '')}關鍵字（留空返回）：",
     ).ask()
     
     if not query:

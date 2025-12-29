@@ -202,9 +202,10 @@ def _download_caption(yutu: YutuCLI) -> None:
     tlang = None
     if translate:
         tlang = questionary.text(
-            "輸入目標語言代碼（如 en, ja, zh-TW）：",
-            validate=lambda x: len(x.strip()) >= 2 or "請輸入有效的語言代碼",
+            "輸入目標語言代碼（如 en, ja, zh-TW，留空返回）：",
         ).ask()
+        if not tlang or len(tlang.strip()) < 2:
+            return
 
     # 設定檔案路徑
     default_filename = f"{video_title[:30]}_{lang_code}.{fmt}"
@@ -278,10 +279,9 @@ def _upload_caption(yutu: YutuCLI) -> None:
 
     if language == "other":
         language = questionary.text(
-            "輸入語言代碼（如 es, fr, de）：",
-            validate=lambda x: len(x.strip()) >= 2 or "請輸入有效的語言代碼",
+            "輸入語言代碼（如 es, fr, de，留空返回）：",
         ).ask()
-        if not language:
+        if not language or len(language.strip()) < 2:
             return
 
     # 字幕名稱（可選）
