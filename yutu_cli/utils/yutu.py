@@ -462,6 +462,80 @@ class YutuCLI:
         """
         return self.run("caption", "delete", ids=caption_id)
 
+    # === 影片管理方法 ===
+
+    def update_video(
+        self,
+        video_id: str,
+        *,
+        title: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[list[str]] = None,
+        privacy: Optional[str] = None,
+        category_id: Optional[str] = None,
+    ) -> YutuResult:
+        """更新影片資訊
+
+        Args:
+            video_id: 影片 ID
+            title: 新標題（可選）
+            description: 新描述（可選）
+            tags: 新標籤列表（可選）
+            privacy: 隱私狀態 public/private/unlisted（可選）
+            category_id: 分類 ID（可選）
+
+        Returns:
+            YutuResult
+        """
+        kwargs: dict[str, Any] = {"id": video_id}
+        if title:
+            kwargs["title"] = title
+        if description is not None:
+            kwargs["description"] = description
+        if tags:
+            kwargs["tags"] = ",".join(tags)
+        if privacy:
+            kwargs["privacy"] = privacy
+        if category_id:
+            kwargs["categoryId"] = category_id
+        return self.run("video", "update", **kwargs)
+
+    def delete_video(self, video_id: str) -> YutuResult:
+        """刪除影片
+
+        Args:
+            video_id: 影片 ID
+
+        Returns:
+            YutuResult
+        """
+        return self.run("video", "delete", ids=video_id)
+
+    def rate_video(self, video_id: str, rating: str) -> YutuResult:
+        """評分影片
+
+        Args:
+            video_id: 影片 ID
+            rating: 評分類型 like/dislike/none
+
+        Returns:
+            YutuResult
+        """
+        return self.run("video", "rate", ids=video_id, rating=rating)
+
+    def get_video_rating(self, video_ids: str | list[str]) -> YutuResult:
+        """取得影片評分狀態
+
+        Args:
+            video_ids: 影片 ID 或 ID 列表
+
+        Returns:
+            YutuResult
+        """
+        if isinstance(video_ids, list):
+            video_ids = ",".join(video_ids)
+        return self.run("video", "getRating", ids=video_ids)
+
 
 # 全域實例
 _yutu: Optional[YutuCLI] = None
