@@ -283,3 +283,100 @@ def display_success(message: str) -> None:
 def display_warning(message: str) -> None:
     """顯示警告訊息"""
     console.print(Panel(f"[yellow]{message}[/yellow]", title="⚠️ 警告", border_style="yellow"))
+
+
+def format_moderation_status(status: str) -> str:
+    """格式化審核狀態顯示
+
+    Args:
+        status: 審核狀態（published/heldForReview/rejected/likelySpam）
+
+    Returns:
+        帶樣式的狀態文字
+    """
+    status_styles = {
+        "published": "[green]已發布[/green]",
+        "heldForReview": "[yellow]待審核[/yellow]",
+        "rejected": "[red]已拒絕[/red]",
+        "likelySpam": "[red]疑似垃圾[/red]",
+    }
+    return status_styles.get(status, status)
+
+
+def display_comments(data: dict | list, video_title: str = "") -> None:
+    """顯示評論列表
+
+    Args:
+        data: 評論串資料（來自 commentThread list）
+        video_title: 影片標題（用於表格標題）
+    """
+    items = data if isinstance(data, list) else data.get("items", [])
+
+    if not items:
+        console.print("[yellow]此影片沒有評論[/yellow]")
+        return
+
+    title = f"💬 {video_title}" if video_title else "💬 評論列表"
+    table = Table(
+        title=f"{title}（共 {len(items)} 則）",
+        show_header=True,
+        header_style="bold cyan",
+    )
+    table.add_column("#", style="dim", width=4)
+    table.add_column("用戶", style="bold", width=15)
+    table.add_column("評論內容", max_width=45)
+    table.add_column("👍", justify="right", style="magenta", width=6)
+    table.add_column("回覆", justify="right", style="blue", width=6)
+    table.add_column("日期", justify="center", width=10)
+
+    for i, item in enumerate(items, 1):
+        snippet = item.get("snippet", {})
+        top_comment = snippet.get("topLevelComment", {}).get("snippet", {})
+
+        author = truncate(top_comment.get("authorDisplayName", ""), 15)
+        text = truncate(top_comment.get("textDisplay", ""), 45)
+        likes = format_count(top_comment.get("likeCount", 0))
+        reply_count = str(snippet.get("totalReplyCount", 0))
+        published = format_date(top_comment.get("publishedAt", ""))
+
+        table.add_row(str(i), author, text, likes, reply_count, published)
+
+    console.print(table)
+
+
+def display_comment_detail(comment: dict, include_replies: bool = True) -> None:
+    """顯示單則評論詳情（含回覆）
+
+    Args:
+        comment: 評論串資料
+        include_replies: 是否顯示回覆
+    """
+    snippet = comment.get("snippet", {})
+    top_comment = snippet.get("topLevelComment", {}).get("snippet", {})
+    replies = comment.get("replies", {}).get("comments", [])
+
+    author = top_comment.get("authorDisplayName", "匿名")
+    text = top_comment.get("textDisplay", "")
+    likes = format_count(top_comment.get("likeCount", 0))
+    published = format_date(top_comment.get("publishedAt", ""))
+    reply_count = snippet.get("totalReplyCount", 0)
+
+    content = f"""[bold cyan]{author}[/bold cyan] · {published}
+{text}
+
+👍 [magenta]{likes}[/magenta]  💬 [blue]{reply_count} 則回覆[/blue]
+"""
+
+    if include_replies and replies:
+        content += "\n[bold]─── 回覆 ───[/bold]\n"
+        for reply in replies[:5]:  # 最多顯示 5 則
+            r_snippet = reply.get("snippet", {})
+            r_author = r_snippet.get("authorDisplayName", "")
+            r_text = truncate(r_snippet.get("textDisplay", ""), 60)
+            r_date = format_date(r_snippet.get("publishedAt", ""))
+            content += f"\n[dim]{r_author}[/dim] · {r_date}\n{r_text}\n"
+
+        if reply_count > 5:
+            content += f"\n[dim]...還有 {reply_count - 5} 則回覆[/dim]"
+
+    console.print(Panel(content, title="💬 評論詳情", border_style="cyan"))

@@ -238,6 +238,143 @@ class YutuCLI:
         """刪除播放清單"""
         return self.run("playlist", "delete", id=playlist_id)
 
+    # === 評論相關方法 ===
+
+    def list_comment_threads(
+        self, video_id: str, max_results: Optional[int] = None
+    ) -> YutuResult:
+        """列出影片的評論串
+
+        Args:
+            video_id: 影片 ID
+            max_results: 最大結果數
+
+        Returns:
+            YutuResult 包含評論串列表
+        """
+        return self.run(
+            "commentThread",
+            "list",
+            videoId=video_id,
+            parts="snippet,replies",
+            max_results=max_results,
+        )
+
+    def insert_comment_thread(
+        self, video_id: str, text: str, channel_id: str
+    ) -> YutuResult:
+        """在影片新增頂層評論
+
+        Args:
+            video_id: 影片 ID
+            text: 評論文字
+            channel_id: 頻道 ID
+
+        Returns:
+            YutuResult
+        """
+        return self.run(
+            "commentThread",
+            "insert",
+            videoId=video_id,
+            textOriginal=text,
+            channelId=channel_id,
+            authorChannelId=channel_id,
+        )
+
+    def list_comment_replies(
+        self, parent_id: str, max_results: Optional[int] = None
+    ) -> YutuResult:
+        """列出評論的回覆
+
+        Args:
+            parent_id: 父評論 ID
+            max_results: 最大結果數
+
+        Returns:
+            YutuResult 包含回覆列表
+        """
+        return self.run(
+            "comment",
+            "list",
+            parentId=parent_id,
+            parts="snippet",
+            max_results=max_results,
+        )
+
+    def reply_to_comment(
+        self, video_id: str, parent_id: str, text: str, channel_id: str
+    ) -> YutuResult:
+        """回覆評論
+
+        Args:
+            video_id: 影片 ID
+            parent_id: 父評論 ID
+            text: 回覆文字
+            channel_id: 頻道 ID
+
+        Returns:
+            YutuResult
+        """
+        return self.run(
+            "comment",
+            "insert",
+            videoId=video_id,
+            parentId=parent_id,
+            textOriginal=text,
+            channelId=channel_id,
+            authorChannelId=channel_id,
+        )
+
+    def update_comment(self, comment_id: str, text: str) -> YutuResult:
+        """更新評論內容
+
+        Args:
+            comment_id: 評論 ID
+            text: 新的評論文字
+
+        Returns:
+            YutuResult
+        """
+        return self.run(
+            "comment",
+            "update",
+            id=comment_id,
+            textOriginal=text,
+        )
+
+    def delete_comment(self, comment_id: str) -> YutuResult:
+        """刪除評論
+
+        Args:
+            comment_id: 評論 ID
+
+        Returns:
+            YutuResult
+        """
+        return self.run("comment", "delete", ids=comment_id)
+
+    def set_comment_moderation_status(
+        self, comment_id: str, status: str, ban_author: bool = False
+    ) -> YutuResult:
+        """設定評論審核狀態
+
+        Args:
+            comment_id: 評論 ID
+            status: 狀態（published/heldForReview/rejected）
+            ban_author: 是否封鎖作者
+
+        Returns:
+            YutuResult
+        """
+        kwargs: dict[str, Any] = {
+            "ids": comment_id,
+            "moderationStatus": status,
+        }
+        if ban_author:
+            kwargs["banAuthor"] = True
+        return self.run("comment", "setModerationStatus", **kwargs)
+
 
 # 全域實例
 _yutu: Optional[YutuCLI] = None
