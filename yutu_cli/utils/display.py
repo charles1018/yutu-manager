@@ -380,3 +380,94 @@ def display_comment_detail(comment: dict, include_replies: bool = True) -> None:
             content += f"\n[dim]...還有 {reply_count - 5} 則回覆[/dim]"
 
     console.print(Panel(content, title="💬 評論詳情", border_style="cyan"))
+
+
+def format_track_kind(kind: str) -> str:
+    """格式化字幕軌道類型
+
+    Args:
+        kind: 軌道類型（standard/ASR/forced）
+
+    Returns:
+        帶樣式的類型文字
+    """
+    kind_styles = {
+        "standard": "[green]標準[/green]",
+        "ASR": "[yellow]自動產生[/yellow]",
+        "forced": "[blue]強制[/blue]",
+    }
+    return kind_styles.get(kind, kind)
+
+
+def format_language_name(lang_code: str) -> str:
+    """將語言代碼轉換為顯示名稱
+
+    Args:
+        lang_code: 語言代碼（如 zh-TW, en）
+
+    Returns:
+        語言顯示名稱
+    """
+    lang_names = {
+        "zh-TW": "繁體中文",
+        "zh-CN": "簡體中文",
+        "zh-Hans": "簡體中文",
+        "zh-Hant": "繁體中文",
+        "en": "英文",
+        "en-US": "英文（美國）",
+        "en-GB": "英文（英國）",
+        "ja": "日文",
+        "ko": "韓文",
+        "es": "西班牙文",
+        "fr": "法文",
+        "de": "德文",
+        "pt": "葡萄牙文",
+        "ru": "俄文",
+        "it": "義大利文",
+        "th": "泰文",
+        "vi": "越南文",
+        "id": "印尼文",
+    }
+    return lang_names.get(lang_code, lang_code)
+
+
+def display_captions(data: dict | list, video_title: str = "") -> None:
+    """顯示字幕列表
+
+    Args:
+        data: 字幕資料（來自 caption list）
+        video_title: 影片標題（用於表格標題）
+    """
+    items = data if isinstance(data, list) else data.get("items", [])
+
+    if not items:
+        console.print("[yellow]此影片沒有字幕[/yellow]")
+        return
+
+    title = f"📝 {video_title}" if video_title else "📝 字幕列表"
+    table = Table(
+        title=f"{title}（共 {len(items)} 個字幕軌道）",
+        show_header=True,
+        header_style="bold cyan",
+    )
+    table.add_column("#", style="dim", width=4)
+    table.add_column("語言", style="bold", width=15)
+    table.add_column("名稱", max_width=30)
+    table.add_column("類型", justify="center", width=12)
+    table.add_column("狀態", justify="center", width=10)
+    table.add_column("ID", style="dim")
+
+    for i, item in enumerate(items, 1):
+        snippet = item.get("snippet", {})
+        caption_id = item.get("id", "")
+
+        lang_code = snippet.get("language", "")
+        lang_display = format_language_name(lang_code)
+        name = snippet.get("name", "") or "（預設）"
+        track_kind = format_track_kind(snippet.get("trackKind", "standard"))
+        is_draft = snippet.get("isDraft", False)
+        status = "[yellow]草稿[/yellow]" if is_draft else "[green]已發布[/green]"
+
+        table.add_row(str(i), f"{lang_display} ({lang_code})", name, track_kind, status, caption_id)
+
+    console.print(table)

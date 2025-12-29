@@ -375,6 +375,93 @@ class YutuCLI:
             kwargs["banAuthor"] = True
         return self.run("comment", "setModerationStatus", **kwargs)
 
+    # === 字幕相關方法 ===
+
+    def list_captions(self, video_id: str) -> YutuResult:
+        """列出影片的字幕軌道
+
+        Args:
+            video_id: 影片 ID
+
+        Returns:
+            YutuResult 包含字幕列表
+        """
+        return self.run(
+            "caption",
+            "list",
+            videoId=video_id,
+            parts="id,snippet",
+        )
+
+    def download_caption(
+        self,
+        caption_id: str,
+        file_path: str,
+        fmt: str = "srt",
+        tlang: Optional[str] = None,
+    ) -> YutuResult:
+        """下載字幕檔案
+
+        Args:
+            caption_id: 字幕軌道 ID
+            file_path: 儲存路徑
+            fmt: 格式（srt/vtt/sbv）
+            tlang: 翻譯成指定語言（可選）
+
+        Returns:
+            YutuResult
+        """
+        kwargs: dict[str, Any] = {
+            "id": caption_id,
+            "file": file_path,
+            "tfmt": fmt,
+        }
+        if tlang:
+            kwargs["tlang"] = tlang
+        return self.run("caption", "download", output_format="silent", **kwargs)
+
+    def insert_caption(
+        self,
+        video_id: str,
+        file_path: str,
+        language: str,
+        name: str = "",
+        is_draft: bool = False,
+    ) -> YutuResult:
+        """上傳字幕軌道
+
+        Args:
+            video_id: 影片 ID
+            file_path: 字幕檔案路徑
+            language: 語言代碼（如 zh-TW, en）
+            name: 字幕名稱（可選）
+            is_draft: 是否為草稿
+
+        Returns:
+            YutuResult
+        """
+        kwargs: dict[str, Any] = {
+            "videoId": video_id,
+            "file": file_path,
+            "language": language,
+        }
+        if name:
+            kwargs["name"] = name
+        if is_draft:
+            kwargs["isDraft"] = True
+        return self.run("caption", "insert", **kwargs)
+
+    def delete_caption(self, caption_id: str) -> YutuResult:
+        """刪除字幕軌道
+
+        Args:
+            caption_id: 字幕軌道 ID
+
+        Returns:
+            YutuResult
+        """
+        return self.run("caption", "delete", ids=caption_id)
+
 
 # 全域實例
 _yutu: Optional[YutuCLI] = None
